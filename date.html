@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Date?</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff6b6b, #ffafcc, #d680f1);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: #4a4a4a;
+            position: relative;
+            overflow: hidden;
+            animation: backgroundShift 8s infinite alternate;
+        }
+
+        /* Background shift animation */
+        @keyframes backgroundShift {
+            0% { background: linear-gradient(135deg, #eb3737, #f73083, #a92acf); }
+            50% { background: linear-gradient(135deg, #e41a97, #ff6b6b, #fd1f31); }
+            100% { background: linear-gradient(135deg, #e65454, #b921e7, #e63072); }
+        }
+
+        .container {
+            max-width: 500px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            background: rgba(224, 183, 200, 0.9);
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #333;
+            margin: 20px 0;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            color: #fff;
+            transform: translateY(0);
+        }
+
+        .btn-next {
+            background-color: #f72a2a;
+        }
+
+        .btn-yes {
+            background-color: #ff6b6b;
+        }
+
+        .btn-no {
+            background-color: #c63bf0;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: scale(1.05) translateY(2px);
+        }
+
+        /* Input styling */
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+            margin-top: 10px;
+            transition: 0.3s;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff6b6b;
+            outline: none;
+            box-shadow: 0px 4px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        /* Page transition animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating Heart Effect */
+        .effect {
+            font-size: 2.5em;
+            opacity: 0;
+            animation: floatHeart 3s ease-out forwards;
+            position: absolute;
+            color: #ff6b6b;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150vh) scale(1.7);
+                opacity: 0;
+            }
+        }
+
+        /* Interactive message */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Quote -->
+    <div class="container" id="quote-page">
+        <h1>Love Quote</h1>
+        <p>“Love is not about how many days, months, or years you’ve been together. Love is about how much you love each other every single day.”</p>
+        <button class="btn btn-next" onclick="goToPage('name-page')">Next</button>
+    </div>
+
+    <!-- Page 2: Name Input -->
+    <div class="container hidden" id="name-page">
+        <h1>What's Your Name?</h1>
+        <input type="text" id="name-input" placeholder="Enter your name" />
+        <button class="btn btn-next" onclick="captureName()">Next</button>
+    </div>
+
+    <!-- Page 3: Nice Message -->
+    <div class="container hidden" id="nice-message-page">
+        <h1>Hi, <span id="user-name"></span>!</h1>
+        <p>You're an amazing person with a beautiful soul. Just wanted you to know that you make the world brighter!</p>
+        <button class="btn btn-next" onclick="goToPage('images-page')">Next</button>
+    </div>
+
+    <!-- Page 4: Image Gallery -->
+    <div class="container hidden" id="images-page">
+        <h1>Here are Some Beautiful Memories</h1>
+        <div class="image-container">
+            <img src="image1.jpg" alt="Her Photo 1" style="width:100px;height:100px;border-radius:10px;margin:5px;">
+            <img src="image2.jpg" alt="Her Photo 2" style="width:100px;height:100px;border-radius:10px;margin:5px;">
+            <img src="image3.jpg" alt="Her Photo 3" style="width:100px;height:100px;border-radius:10px;margin:5px;">
+        </div>
+        <button class="btn btn-next" onclick="goToPage('date-request-page')">Next</button>
+    </div>
+
+    <!-- Page 5: Date Request -->
+    <div class="container hidden" id="date-request-page">
+        <h1>Will You Be My Date?</h1>
+        <div class="button-container">
+            <button class="btn btn-yes" onclick="handleResponse(true)">Yes ❤️</button>
+            <button class="btn btn-no" onclick="handleResponse(false)">No 😢</button>
+        </div>
+    </div>
+
+    <!-- Page 6: Response -->
+    <div class="container hidden" id="response-page">
+        <h1 id="response-message"></h1>
+    </div>
+
+    <script>
+        let userName = '';
+
+        function goToPage(pageId) {
+            document.querySelectorAll('.container').forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        function captureName() {
+            userName = document.getElementById('name-input').value;
+            if (userName) {
+                document.getElementById('user-name').textContent = userName;
+                goToPage('nice-message-page');
+            } else {
+                alert("Please enter your name!");
+            }
+        }
+
+        function handleResponse(isYes) {
+            if (isYes) {
+                showHearts();
+                setTimeout(() => {
+                    document.getElementById('response-message').textContent = `Thank you, ${userName}, for being my date!`;
+                    goToPage('response-page');
+                }, 3000);
+            } else {
+                showSadEmojis();
+                setTimeout(() => {
+                    document.getElementById('response-message').textContent = `I'm glad I tried, ${userName}.`;
+                    goToPage('response-page');
+                }, 3000);
+            }
+        }
+
+        function showHearts() {
+            for (let i = 0; i < 10; i++) {
+                let heart = document.createElement('div');
+                heart.classList.add('effect');
+                heart.textContent = '❤️';
+                document.body.appendChild(heart);
+                positionEffect(heart);
+            }
+        }
+
+        function showSadEmojis() {
+            for (let i = 0; i < 10; i++) {
+                let sadEmoji = document.createElement('div');
+                sadEmoji.classList.add('effect');
+                sadEmoji.textContent = '😢';
+                document.body.appendChild(sadEmoji);
+                positionEffect(sadEmoji);
+            }
+        }
+
+        function positionEffect(element) {
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.top = Math.random() * 100 + 'vh';
+            setTimeout(() => element.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
